@@ -33,7 +33,6 @@ RUN sudo mkdir /datadrive/bitcoind
 VOLUME /datadrive/bitcoind
 
 EXPOSE 50001
-EXPOSE 50002
 
 WORKDIR /
 COPY ./electrumx.sh /electrumx.sh
