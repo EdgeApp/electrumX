@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mainnet-bitcoind
+  namespace: bitcoin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mainnet-bitcoind
+    spec:
+      containers:
+      - name: bitcoind
+        image: seegno/bitcoind:0.14
+        ports:
+          - containerPort: 8332
+        volumeMounts:
+          - name: "bitcoind"
+            mountPath: "/home/bitcoin/.bitcoin"
+        args: ["-rpcallowip=::/0", "-rpcallowip=0.0.0.0/0", "-rpcallowip=127.0.0.1/0", "-server=1" ,"-rpcport=8332", "-rpcpassword=mainnet", "-rpcuser=mainnet", "-printtoconsole", "-blockmaxsize=999999", "-disablewallet", "-limitfreerelay=1", "-minrelaytxfee=0.00005", "-addnode=useast1.falcon-net.org", "-addnode=uswest1.falcon-net.org", "-addnode=uswest2.falcon-net.org", "-addnode=eucentral1.falcon-net.org", "-addnode=euwest1.falcon-net.org", "-addnode=apnortheast1.falcon-net.org", "-addnode=apnortheast2.falcon-net.org", "-addnode=apsoutheast1.falcon-net.org", "-addnode=apsoutheast2.falcon-net.org", "-addnode=saeast1.falcon-net.org", "-txindex=1"]
+      volumes:
+        - name: "bitcoind"
+          persistentVolumeClaim:
+            claimName: "mainnet-bitcoind"

@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mainnet-electrumx
+  namespace: bitcoin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mainnet-electrumx
+    spec:
+      containers:
+      - name: electrumx
+        image: monacoex/electrumx:1.0.15
+        env:
+        - name: HOST
+          value: 0.0.0.0
+        - name: TCP_PORT
+          value: "50001"
+        volumeMounts:
+          - mountPath: /db
+            name: db
+          - mountPath: /env
+            name: env
+      volumes:
+      - name: env
+        configMap:
+          name: mainnet-electrumx
+      - emptyDir: {}
+        name: db

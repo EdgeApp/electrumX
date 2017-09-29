@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mainnet-bitcoind
+  namespace: bitcoin
+spec:
+  storageClassName: slow
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "1000Gi"
+  volumeName: bitcoin-mainnet-bitcoind
